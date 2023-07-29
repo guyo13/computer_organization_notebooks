@@ -117,12 +117,14 @@ Problem Statement: We want to be able to perform the logical AND/OR operations a
 **The 1-Bit ALU** is then constructed by combining these 3 logic devices into a single device (the ALU) that **multiplexes their outputs**.
 
 ### 32-Bit ALU
-A 32-Bit ALU is constructed by linking 32 1-Bit ALUs. The adder that is constructed this way is called a *ripple carry adder*.
+* A 32-Bit ALU is constructed by linking 32 1-Bit ALUs.
+* In order to build the adder we feed the *CarryOut* signal of each ALU to the subsequent ALU's *CarryIn*.
+* The adder that is constructed this way is called a *ripple carry adder*.
 
 #### Implementing Subtraction
 To implement subtraction, we leverage addition with the 2's complement of the subtracted term. To get the 2's complement we:
 1) Use a 2:1 Multiplexer to choose between \$b\$  and \$\overline{b}\$. The control line that selects the inversion of \$b\$ is called *Binvert*.
-2) Use the *CarryIn* input of the LSB 1-Bit adder to add 1.
+2) Use the *CarryIn* input of the LSB 1-Bit adder to add 1 (By feeding in *Binvert*).
 
 This essentially computes the addition of \$a\$ and the 2's complement of \$b\$ (the subtracted).
 
@@ -132,7 +134,7 @@ This is an equivalent solution that replaces the 2:1 multiplexors with XOR gates
 
 #### Implementing NOR
 
-Observe that: \$NOR(a,b) = \overline{a+b} =\overline{a}\cdot \overline{b} \$
+Observe that: \$ NOR(a,b) = \overline{a+b} =\overline{a}\cdot \overline{b} \$
 
 We can therefore add an *A-invert* logical step using a multiplexor - same as in the subtraction part - and reuse the AND logic.
 
@@ -149,13 +151,13 @@ Point number 3 is a problem since the *Result* output signal of the **ALU** is n
 We solve this problem by defining a special ALU for the 32nd bit:
 * A new output signal called *Set* which is the result **of its Adder**.
 * A logic circuit for Overflow detection that combines the inputs \$a,b\$ with the Adder result and the *CarryOut*. Its output is exposed from the ALU as *Overflow*.
-* Finally *Set* is fed to ALU number 0 *Less* signal.
+* Finally *Set* is fed to ALU number 0's *Less* signal.
 
 #### Additional design features
 1) For subtracting we want to set *Binvert* and the first *CarryIn* to 1, but for all other operations they should be 0. We therefore combine them to a single control *Bnegate*.
 2) For *bne* operation we need to test for the condition \$a-b=0\$ and therefore this is just taking NOR on the subtraction operation result bits. We expose this as the *Zero* output signal of the entire ALU.
 3) Finally we get that there are 4 distinct control signal lines: *Ainvert*, *Bnegate* and *Operation* (2 bits).
-4) We have in total 3 outputs from the ALU: *Result*, *Zero*, *Overflow* and *CarryOut*.
+4) We have in total 4 outputs from the ALU: *Result*, *Zero*, *Overflow* and *CarryOut*.
    * Notice that *Result* is discarded if the operation is *bne*
    * That *Overflow* is directly wired to the 32nd ALU *Overflow* output.
    * *Overflow* is calculated: \$XOR(\text{CarryIn31},\text{CarryOut31})\$
