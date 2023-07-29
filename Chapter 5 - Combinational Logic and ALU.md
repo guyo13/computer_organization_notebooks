@@ -7,7 +7,7 @@ $$
 A circuit comprised of *Inputs*, *Outputs* and logic gates, where a change in any of the *Inputs* causes a change in its *Outputs* after a stabilization time denoted \$\Delta T\$.
 
 ### Decoder and Encoder
-**Decoder** - A logic block that has \$n\$-bit inputs and \$2^n\$ outputs - each corresponding to a single state of the inputs (essentially **decodes** base-2 input into "decimal" output where the decimal number is the "index" of the output (index range \$0 \rightarrow 2^n-1\$.
+**Decoder** - A logic block that has \$n\$-bit inputs and \$2^n\$ outputs - each corresponding to a single state of the inputs (essentially **decodes** base-2 input into "decimal" output where the decimal number is the "index" of the output (index range \$0 \rightarrow 2^n-1\$)).
 
 **Encoder** - A logic block that does the inverse of the Decoder - takes \$2^n\$ inputs and produces the binary representation of them over \$n\$ outputs.
 
@@ -22,7 +22,7 @@ Where \$A,B\$ are the first and second inputs respectively, \$C\$ is the output 
 
 Multiplexors can be of arbitrary number of data inputs.
 
-For the case where there are more than 2 of them, for example \$n\$ inputs (we need \$\lceil log_2(n) \rceil\$ selector inputs) then the Multiplexor is made of:
+For the case where there are more than 2 of them, for example \$n\$ inputs (we need \$\lceil log_2(n) \rceil \$ of selector inputs) then the Multiplexor is made of:
 1) A Decoder that generates \$n\$ **control** signals, each controlling a different input value.
 2) An array of \$n\$ AND gates, each combining a single **data** input with its corresponding **control** signal from the decoder.
 3) A single large OR gate that combines the outputs of the AND gates.
