@@ -93,6 +93,7 @@ As mentioned a ROM is fully decoded and a PLA is partially decoded and therefore
 Additionally, the **number of entries** - \$N_{\text{entries}}\$ - in the ROM **grows exponentially with the number of inputs** while for most real logic functions \$N_{\text{minterms}}\$ grows much more slowly.
 
 Meaning:
+
 $$
 \begin{align}
 & N_{\text{entries}} = \Theta(2^{N_{\text{inputs}}}) \\
